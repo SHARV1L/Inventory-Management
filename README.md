@@ -3,6 +3,12 @@ Inventory Management System:
 This project is a basic Inventory Management System built using Spring Boot. It allows users to manage inventory items through a RESTful API. 
 The project as of now covers creating, reading, updating, and deleting items in the inventory using PostgreSQl as our database.
 
+You can save Username, Password, URL and other secret docs/creds in .env file as:
+DB_URL=jdbc:postgresql://localhost:<portnumber>/inventory_management
+DB_USERNAME=username
+DB_PASSWORD=password
+
+
 Features:
 1.) Add new inventory items.
 2.) Retrieve all items 
