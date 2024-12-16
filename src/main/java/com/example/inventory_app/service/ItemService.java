@@ -26,7 +26,9 @@ public class ItemService {
     }
 
     public Item updateItem(Long id, Item item){
-        Item existingItem = getItemById(id);
+        //Item existingItem = getItemById(id);
+        Item existingItem = itemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Item Not Found"));
+
         existingItem.setName(item.getName());
         existingItem.setQuantity(item.getQuantity());
         existingItem.setExpirationDate(item.getExpirationDate());
@@ -35,5 +37,9 @@ public class ItemService {
 
     public void deleteItem(Long id){
         itemRepository.deleteById(id);
+    }
+
+    public Item getItemByBarcode(String barcode) {
+        return itemRepository.findByBarcode(barcode);
     }
 }

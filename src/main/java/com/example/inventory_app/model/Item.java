@@ -1,6 +1,12 @@
 package com.example.inventory_app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "items")
@@ -10,12 +16,18 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Name cannot be black")
     private String name;
 
+    @Positive(message = "Quantity must be greater than 0")
     private int quantity;
 
-    private String expirationDate;
+    @NotNull(message = "Expiration date cannot be null")
+    @Future(message = "Expiration date must be a future date")
+    private LocalDate expirationDate;
+
+    @Column(unique = true)
+    private String barcode;
 
     public Long getId() {
         return id;
@@ -41,11 +53,19 @@ public class Item {
         this.quantity = quantity;
     }
 
-    public String getExpirationDate() {
+    public LocalDate getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(String expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 }

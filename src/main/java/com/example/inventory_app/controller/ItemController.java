@@ -3,6 +3,7 @@ package com.example.inventory_app.controller;
 import com.example.inventory_app.model.Item;
 import com.example.inventory_app.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,5 +37,15 @@ public class ItemController {
 
     public void deleteItem(@PathVariable Long id){
         itemService.deleteItem(id);
+    }
+
+    public ResponseEntity<Item> getItemByBarcode(@PathVariable String barcode){
+        Item item = itemService.getItemByBarcode(barcode);
+        if(item != null){
+            return ResponseEntity.ok(item);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
