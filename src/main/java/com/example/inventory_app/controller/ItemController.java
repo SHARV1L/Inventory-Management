@@ -24,16 +24,16 @@ public class ItemController {
 //    }
 
     @GetMapping
-    public ResponseEntity<Page<Item>> getAllItems(
+    public ResponseEntity<List<Item>> getAllItems(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "name") String sortBy) {
-        try{
-            PageRequest pageRequest = PageRequest.of(page, size, Sort.by(sortBy));
-            return ResponseEntity.ok(itemService.getAllItems(pageRequest));
-        } catch(IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(sortBy));
+        Page<Item> pageResult = itemService.getAllItems(pageRequest);
+
+        // Extract only the content (list of items) from the Page object
+        List<Item> items = pageResult.getContent();
+        return ResponseEntity.ok(items);
     }
 
 //    @GetMapping("/{id}")
@@ -62,7 +62,7 @@ public class ItemController {
         return ResponseEntity.ok(item);
     }
 
-    @PostMapping("/{id}")
+    @PostMapping()
     public ResponseEntity<Item> createItem(@RequestBody Item item) {
         Item createdItem = itemService.createItem(item);
         return ResponseEntity.status(201).body(createdItem);
